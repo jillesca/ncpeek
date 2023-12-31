@@ -53,6 +53,6 @@ class CiscoIOSXEMemoryParser(Parser):
             "name": entry["name"],
             "percent_used": _calculate_percentage(entry),
             "field": self.netconf_filter_id,
-            "device": self.device.hostname,
+            "device": self.device.host,
             "ip": self.device.host,
         }

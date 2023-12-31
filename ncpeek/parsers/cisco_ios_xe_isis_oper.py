@@ -70,7 +70,7 @@ class ISISStatsIOSXEParser(Parser):
             "isis_status": neighbor["state"],
             "neighbor_id": neighbor["system-id"].replace(" ", "_"),
             "field": self.netconf_filter_id,
-            "device": self.device.hostname,
+            "device": self.device.host,
             "ip": self.device.host,
             "interface_name": neighbor["if-name"],
             "ipv4_address": neighbor["ipv4-address"],
