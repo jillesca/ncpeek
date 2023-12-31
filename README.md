@@ -29,6 +29,8 @@ Will yield this result.
 ]
 ```
 
+If you need to manipulate the shape of the data or add some logic, you can add a custom parser for your xml filter. See [Adding a Parser](#adding-a-parser) for instructions.
+
 ## Usage
 
 You can use in two ways `ncpeek`; cli or api.
