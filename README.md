@@ -6,38 +6,83 @@ To use it, install the dependencies needed
 
 ```bash
 poetry install
+peotry shell
 ```
+
+If you use `vscode`, start `poetry shell` and then start vscode with `code .`
 
 ## Usage
 
+You can use in two ways `ncpeek`.
+
+### CLI
+
 ```bash
-╰─ python main.py -h
-usage: main.py [-h] [--device_settings DEVICE_SETTINGS] (--xml_filter XML_FILTER | --xpath_filter XPATH_FILTER)
+❯ python ncpeek/client.py
+
+usage: client.py [-h] [-d DEVICE_SETTINGS]
+                 (-x XML_FILTER | -p XPATH_FILTER)
+
+Netconf client to gather data from devices. The client
+can be used via CLI or API. Provide device credentials
+and options via a json file. User must specify if an XML
+filter or XPath is to be used. Note that only one can be
+used.
 
 options:
   -h, --help            show this help message and exit
-  --device_settings DEVICE_SETTINGS
-                        Device Settings in json fomat. Eg. 'netconf_devices_settings.json'
-  --xml_filter XML_FILTER
-                        Netconf Filter to apply in xml format. Eg. 'cisco_xe_ietf-interfaces.xml'
-  --xpath_filter XPATH_FILTER
-                        Netconf Filter to apply in xpath. Formats: <xpath> OR <namespace>:<xpath> Eg. 'interfaces/interface' OR 'http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface' xpath is used as
-                        ID internally.
+  -d DEVICE_SETTINGS, --device-settings DEVICE_SETTINGS
+                        Device Settings in json format.
+                        See examples under ncpeek/devices
+  -x XML_FILTER, --xml-filter XML_FILTER
+                        Netconf Filter to apply in XML
+                        format. See examples under
+                        ncpeek/filters
+  -p XPATH_FILTER, --xpath-filter XPATH_FILTER
+                        Netconf Filter to apply in XPath.
+                        Formats: <xpath> OR
+                        <namespace>:<xpath> Example:
+                        'interfaces/interface' OR
+                        'http://cisco.com/ns/yang/Cisco-
+                        IOS-XE-interfaces-
+                        oper:interfaces/interface'
 ```
 
 For example
 
 ```bash
-python main.py --device_settings=cat8000v-1_settings.json --xml_filter=Cisco-IOS-XE-memory-oper.xml
+python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xml-filter=Cisco-IOS-XE-memory-oper.xml
 
-python3 main.py --device_settings=cat8000v-0_settings.json --xpath_filter=http://cisco.com/ns/yang/Cisco-IOS-XE-isis-oper:/isis-oper-data/isis-instance
+python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-native:/native/hostname
 ```
 
-Once the script finishes, it will print the result. This is enough for working with telegraf as an exec plugin, but might not be for your use case.
+`ncpeek` will then print to stdout the data retrieve from the network device.
+
+### API
+
+```python
+from ncpeek.client import NetconfClient
+
+def api_call() -> None:
+    """Example NetconfClient API"""
+    result = []
+    client = NetconfClient()
+    client.set_devices_settings(xr_device_settings)
+    client.set_xml_filter(xml_filter)
+    try:
+        result = client.run()
+    except Exception as err:
+        result.append({"error": f"{err=}"})
+    print(result)
+```
+
+`ncpeek` will return the data as json.
+
+See [api_example.py](examples/api_example.py) for the full example.
 
 ## Operations
 
-Currently only uses the [GET operation](netconf_session.py#L13) to retrieve data.
+Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data.
 
 ## Ways to retrieve data
 
