@@ -1,0 +1,15 @@
+[
+  {
+    "host": "sandbox-iosxr-1.cisco.com",
+    "port": 830,
+    "username": "admin",
+    "password": "C1sco12345",
+    "hostkey_verify": "False",
+    "timeout": 60,
+    "device_params": {
+      "name": "iosxr"
+    },
+    "allow_agent": "False",
+    "look_for_keys": "False"
+  }
+]
