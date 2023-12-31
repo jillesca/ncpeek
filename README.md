@@ -2,15 +2,6 @@
 
 `ncpeek` (short for `netconf peek`) is a netconf client that retrieves telemetry data using netconf, it uses the `ncclient` library.
 
-To use it, install the dependencies needed
-
-```bash
-poetry install
-peotry shell
-```
-
-If you use `vscode`, start `poetry shell` and then start vscode with `code .`
-
 ## Usage
 
 You can use in two ways `ncpeek`; cli or api.
@@ -122,14 +113,6 @@ The [ncpeek/devices](ncpeek/devices/) directory is the default directory for `nc
 
 Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data.
 
-## Ways to retrieve data
-
-Relative and absolute paths are supported to define device or filters files.
-
-### Define your devices
-
-Under the [devices directory](devices) create a json file. Follow the structure defined of the existing files. **Don't add or remove fields,** these are used to [build a netconf_device object](netconf_devices.py)
-
 ### xml filter
 
 You need to specify an `xml` file with the filter you want to use and the `--xml_filter` option when calling the script.
@@ -169,7 +152,18 @@ If using the `--xml_filter` option, you can find the xml used under [the filter 
 
 The python code that parses the RPC reply is found under [the parsers directory](parsers)
 
-## Adding a Parser
+## Development
+
+To use it, install the dependencies needed
+
+```bash
+poetry install
+peotry shell
+```
+
+If you use `vscode`, start `poetry shell` and then start vscode with `code .`
+
+### Adding a Parser
 
 If you want to add your own parser. You need to:
 
