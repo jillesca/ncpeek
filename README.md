@@ -114,7 +114,7 @@ You can add multiple devices under one json array, however the data is retrieved
 
 Under `ncpeek/devices` you can find two examples, [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
 
-The `ncpeek/devices` directory is the default directory for `ncpeek` to look for the device settings. To use other directories to place your device settings, pass the relative or absolute path to `ncpeek`.
+The [ncpeek/devices](ncpeek/devices/) directory is the default directory for `ncpeek` to look for the device settings. To use other directories for your device settings, pass the relative or absolute path to `ncpeek`.
 
 ### XML filters
 
