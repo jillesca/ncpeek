@@ -90,11 +90,11 @@ See [api_example.py](examples/api_example.py) for the full example.
 
 `ncpeek` expects the device settings under a specific structure.
 
-- **CLI:** you can pass the json file containing the settings.
+- **CLI:** path to json file containing the device settings.
 
 - **API:** besided the json file, you can pass a string with valid json or a python dictionary with the same structure.
 
-You can add multiple devices under one json array, however the data is retrieve sequencially.
+You can add multiple devices under one json array, however the data is retrieved sequencially.
 
 ```json
 [
