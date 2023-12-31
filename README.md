@@ -13,7 +13,7 @@ If you use `vscode`, start `poetry shell` and then start vscode with `code .`
 
 ## Usage
 
-You can use in two ways `ncpeek`.
+You can use in two ways `ncpeek`; cli or api.
 
 ### CLI
 
@@ -81,6 +81,42 @@ def api_call() -> None:
 `ncpeek` will return the data as json.
 
 See [api_example.py](examples/api_example.py) for the full example.
+
+## Built-in data
+
+`ncpeek` has some data already on it, so you can test it rigth away via CLI or API
+
+### Device Settings
+
+`ncpeek` expects the device settings under a specific structure.
+
+- **CLI:** you can pass the json file containing the settings.
+
+- **API:** besided the json file, you can pass a string with valid json or a python dictionary with the same structure.
+
+You can add multiple devices under one json array, however the data is retrieve sequencially.
+
+```json
+[
+  {
+    "host": "sandbox-iosxe-latest-1.cisco.com",
+    "port": 830,
+    "username": "admin",
+    "password": "C1sco12345",
+    "hostkey_verify": "False",
+    "timeout": 10,
+    "device_params": {
+      "name": "iosxe"
+    }
+  }
+]
+```
+
+Under `ncpeek/devices` you can find two examples, [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
+
+The `ncpeek/devices` directory is the default directory for `ncpeek` to look for the device settings. To use other directories to place your device settings, pass the relative or absolute path to `ncpeek`.
+
+### XML filters
 
 ## Operations
 
