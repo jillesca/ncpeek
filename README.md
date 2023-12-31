@@ -1,6 +1,6 @@
 # ncpeek
 
-`ncpeek` is a netconf client that retrieves telemetry data using netconf, it uses the `ncclient` library.
+`ncpeek` (short for `netconf peek`) is a netconf client that retrieves telemetry data using netconf, it uses the `ncclient` library.
 
 To use it, install the dependencies needed
 
