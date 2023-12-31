@@ -48,11 +48,13 @@ options:
                         oper:interfaces/interface'
 ```
 
-For example
+For example:
 
 ```bash
 python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xml-filter=Cisco-IOS-XE-memory-oper.xml
+```
 
+```bash
 python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-native:/native/hostname
 ```
 
