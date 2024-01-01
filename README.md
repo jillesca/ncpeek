@@ -247,9 +247,7 @@ To add a custom parser follow the steps below:
       1. If using a `xml` file, use the filename as ID, including the `.xml` extension.
       2. If using `xpath`, use the whole xpath expression.
 
-   2. Then on the second level of the dictionary, add the module that has your parser and the class to import.
-
-   3. This is an example of the mappings used.
+   2. On the second level of the dictionary, add the module that has your parser and the class to import.
 
       ```python
       PARSER_MAPPING: Dict[str, Dict[str, str]] = {
