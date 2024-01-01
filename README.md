@@ -189,7 +189,7 @@ Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrie
 
 You can call directly any of these filters using the [devnet sandbox.](ncpeek/devices/)
 
-- xml filters built-in:
+- [xml filters built-in](ncpeek/filters/):
 
   - cisco_xe_ietf-interfaces.xml (custom parser added)
   - Cisco-IOS-XE-interfaces-oper.xml (custom parser added)
