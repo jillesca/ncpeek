@@ -196,17 +196,17 @@ To add a custom parser follow the steps below:
 1. Clone this repository.
 2. Create a parser under [the parsers directory](ncpeek/parsers)
 
-   1. You parser must implement the `Parser` class. See an [existing parser for an example](ncpeek/parsers/cisco_ios_xe_memory_oper.py#L8)
+   1. Your custom parser must implement the `Parser` class. See an [existing parser for an example](ncpeek/parsers/cisco_ios_xe_memory_oper.py#L8)
 
    2. the `parse` function must take three arguments and return a list with a dictionary inside.
 
       ```python
-          def parse(
-            self,
-            data_to_parse: dict,
-            device: NetconfDevice,
-            netconf_filter_id: str,
-        ) -> list[dict]:
+      def parse(
+        self,
+        data_to_parse: dict,
+        device: NetconfDevice,
+        netconf_filter_id: str,
+      ) -> list[dict]:
       ```
 
    3. The variable `data_to_parse` holds a dictionary with **data** as key, and the rpc-reply as the value.
@@ -244,7 +244,7 @@ To add a custom parser follow the steps below:
 
    1. Follow the dictionary structure, where the first keys are the name of the filter you are using.
 
-      1. If using a `xml` file, use the file name as ID, including the `.xml` extension.
+      1. If using a `xml` file, use the filename as ID, including the `.xml` extension.
       2. If using `xpath`, use the whole xpath expression.
 
    2. Then on the second level of the dictionary, add the module that has your parser and the class to import.
@@ -253,13 +253,13 @@ To add a custom parser follow the steps below:
 
       ```python
       PARSER_MAPPING: Dict[str, Dict[str, str]] = {
-          "default_parser": {
-              "module": "ncpeek.parsers.default_parser",
-              "class": "DefaultParser",
-          },
           "cisco_xe_ietf-interfaces.xml": {
               "module": "ncpeek.parsers.cisco_xe_ietf_interfaces",
               "class": "InterfaceStatsIETF_IOSXEParser",
+          },
+          "http://cisco.com/ns/yang/Cisco-IOS-XE-isis-oper:/isis-oper-data/isis-instance": {
+              "module": "ncpeek.parsers.cisco_ios_xe_isis_oper",
+              "class": "ISISStatsIOSXEParser",
           },
       }
       ```
