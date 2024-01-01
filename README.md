@@ -31,6 +31,12 @@ Will yield this result.
 
 If you need to manipulate the shape of the data or add some logic, you can add a custom parser for your xml filter or xpath. See [Adding a Parser](#adding-a-parser) for instructions.
 
+## Use cases
+
+I developed originally `ncpeek` be used inside [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) to gather telemetry data from network devices and print the metrics. This was part of a [demo presented a Cisco Impact 2023.](https://github.com/jillesca/open_telemetry_network_impact) In this case, I needed a CLI client with a simple interface.
+
+For an upcoming talk I will deliver at Cisco Live Amsterdam 2024, I augmented the netconf client and added an API layer so other systems (such as AI) can call `ncpeek` can grab data from network devices. In this case, I needed a simple API for the AI to use.
+
 ## Usage
 
 You can use in two ways `ncpeek`; cli or api.
