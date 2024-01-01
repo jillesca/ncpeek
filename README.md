@@ -40,31 +40,23 @@ You can use in two ways `ncpeek`; cli or api.
 ```bash
 ❯ python ncpeek/client.py
 
-usage: client.py [-h] [-d DEVICE_SETTINGS]
-                 (-x XML_FILTER | -p XPATH_FILTER)
+usage: client.py [-h] [-d DEVICE_SETTINGS] (-x XML_FILTER | -p XPATH_FILTER)
 
-Netconf client to gather data from devices. The client
-can be used via CLI or API. Provide device credentials
-and options via a json file. User must specify if an XML
-filter or XPath is to be used. Note that only one can be
-used.
+Netconf client to gather data from devices. The client can be used via CLI or API. Provide
+device credentials and options via a json file. User must specify if an XML filter or
+XPath is to be used. Note that only one can be used.
 
 options:
   -h, --help            show this help message and exit
   -d DEVICE_SETTINGS, --device-settings DEVICE_SETTINGS
-                        Device Settings in json format.
-                        See examples under ncpeek/devices
+                        Device Settings in json format. See examples under ncpeek/devices
   -x XML_FILTER, --xml-filter XML_FILTER
-                        Netconf Filter to apply in XML
-                        format. See examples under
+                        Netconf Filter to apply in XML format. See examples under
                         ncpeek/filters
   -p XPATH_FILTER, --xpath-filter XPATH_FILTER
-                        Netconf Filter to apply in XPath.
-                        Formats: <xpath> OR
-                        <namespace>:<xpath> Example:
-                        'interfaces/interface' OR
-                        'http://cisco.com/ns/yang/Cisco-
-                        IOS-XE-interfaces-
+                        Netconf Filter to apply in XPath. Formats: <xpath> OR
+                        <namespace>:<xpath> Example: 'interfaces/interface' OR
+                        'http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-
                         oper:interfaces/interface'
 ```
 
