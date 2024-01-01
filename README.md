@@ -2,7 +2,7 @@
 
 `ncpeek` (short for `netconf peek`) is a netconf client that retrieves telemetry data using netconf, it uses the `ncclient` library.
 
-By default it will parse the rpc-reply into json removing any namespaces under the `data` key. It will add some add some additional data as such as `ip`, `device` and `field`.
+By default it will parse the rpc-reply into json removing any namespaces[^1] under the `data` key. It will add some add some additional data as such as `ip`, `device` and `field`.
 
 For example, using the following xml filter below
 
@@ -276,3 +276,5 @@ To add a custom parser follow the steps below:
           },
       }
       ```
+
+[^1]: Up to a maximum of 10 nested dictionaries. After that, all remaining nested directionaries will be return as they are. This [limit can be configured](ncpeek/parsers/remove_namespaces.py#L12) per custom parser.
