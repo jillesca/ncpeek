@@ -134,37 +134,56 @@ The [ncpeek/devices](ncpeek/devices/) directory is the default directory for `nc
 
 ## Operations
 
-Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data.
+Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data. As time goes, more operations could be added.
 
-## xml filter
+## Filters
 
-You need to specify an `xml` file with the filter you want to use and the `--xml_filter` option when calling the script.
+> The ncpeek supports relative and absolute paths. Default directory is [ncpeek/filters](ncpeek/filters)
 
-For example:
+### XML
 
-- `--xml_filter=cisco_xe_ietf-interfaces.xml`
+- **CLI.** filename with the xml filter.
 
-The script supports relative and absolute paths. Default directory is [the filter directory](ncpeek/filters), place your `xml` files there if you don't want to deal with absolute or relative paths.
+  ```python
+  --xml_filter=cisco_xe_ietf-interfaces.xml
+  ```
 
-## xpath
+- **API.** filename or xml string. Use the [`set_xml_filter`](ncpeek/client.py#L38) method.
 
-`xpath` can be use with the following formats:
+  ```python
+    def set_xml_filter(self, xml_filter: str) -> None:
+  ```
 
-- `--xpath_filter=<xpath>`
-- `--xpath_filter=<namespace>:<xpath>`
+### xpath
 
-For example:
+The following formats are accepted:
 
 ```bash
---xpath_filter=interfaces/interface
---xpath_filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
+<xpath>
+<namespace>:<xpath>
 ```
 
-The `xpath` filter is used as [ID internally](ncpeek/factory/factory_mappings.py#L21).
+- **CLI.** `xpath` string.
 
-## Netconf Filters
+  - Examples:
 
-At the time of writting it parses the output of the following netconf filters:
+    ```bash
+    --xpath_filter=interfaces/interface
+    ```
+
+    ```bash
+    --xpath_filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
+    ```
+
+- **API.** `xpath` string.. Use the [`set_xpath_filter`](ncpeek/client.py#L46) method.
+
+  ```python
+    def set_xpath_filter(self, xpath_filter: str) -> None:
+  ```
+
+### Parsers
+
+At the time of writting :
 
 - `ietf-interfaces`
 - `Cisco-IOS-XE-interfaces-oper`
@@ -240,7 +259,7 @@ To add a custom parser follow the steps below:
         "ip": self.device.host,
       ```
 
-3. Add your new parser to [the factory mapping.](ncpeek/factory/factory_mappings.py#L3) This way, `ncpeek` knows which parser to use for which filter.
+3. Add your new parser to [the factory mapping.](ncpeek/factory/factory_mappings.py#L12) This way, `ncpeek` knows which parser to use for which filter.
 
    1. Follow the dictionary structure, where the first keys are the name of the filter you are using.
 
