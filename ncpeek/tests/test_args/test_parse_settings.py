@@ -6,7 +6,7 @@ def test_set_device_settings():
     """
     Test setting device settings from a json file.
     """
-    test_device_settings_file = "devnet_xr_sandbox_settings.json"
+    test_device_settings_file = "devnet_xr_sandbox.json"
     device_settings_file_result = [
         {
             "host": "sandbox-iosxr-1.cisco.com",

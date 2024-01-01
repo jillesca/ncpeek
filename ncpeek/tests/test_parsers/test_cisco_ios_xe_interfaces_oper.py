@@ -110,7 +110,7 @@ EXPECTED_DATA = [
         "operational_status": 1,
         "name": "GigabitEthernet1",
         "field": "Cisco-IOS-XE-interfaces-oper.xml",
-        "device": None,
+        "device": "localhost",
         "ip": "localhost",
     },
     {
@@ -140,7 +140,7 @@ EXPECTED_DATA = [
         "operational_status": 1,
         "name": "Loopback0",
         "field": "Cisco-IOS-XE-interfaces-oper.xml",
-        "device": None,
+        "device": "localhost",
         "ip": "localhost",
     },
 ]
