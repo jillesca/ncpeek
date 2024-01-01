@@ -1,8 +1,8 @@
 # ncpeek
 
-`ncpeek` (short for `netconf peek`) is a netconf client that retrieves telemetry data using netconf, it uses the `ncclient` library.
+`ncpeek` (short for `netconf peek`) is a netconf client that retrieves data using netconf, it uses the `ncclient` library.
 
-By default it will parse the rpc-reply into json removing any namespaces[^1] under the `data` key. It will add some add some additional data as such as `ip`, `device` and `field`.
+By default it will parse the rpc-reply into json removing any namespaces.[^1] It will add some add some additional data as such as `ip`, `device` and `field`.
 
 For example, using the following xml filter below
 
