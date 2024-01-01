@@ -35,6 +35,8 @@ If you need to manipulate the shape of the data or add some logic, you can add a
 
 You can use in two ways `ncpeek`; cli or api.
 
+> filters can be `xml` or `xpath`, but only one can be used at a time.
+
 ### CLI
 
 ```bash
@@ -98,9 +100,9 @@ See [api_example.py](examples/api_example.py) for the full example.
 
 `ncpeek` expects the device settings under a specific structure.
 
-- **CLI:** path to json file containing the device settings.
+- **CLI:** json filename containing the device settings.
 
-- **API:** besided the json file, you can pass a string with valid json or a python dictionary with the same structure.
+- **API:** json filename, valid json or a python dictionary with the same structure.
 
 You can add multiple devices under one json array, however the data is retrieved sequencially.
 
@@ -122,15 +124,11 @@ You can add multiple devices under one json array, however the data is retrieved
 
 Under `ncpeek/devices` you can find two examples, [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
 
-The [ncpeek/devices](ncpeek/devices/) directory is the default directory for `ncpeek` to look for the device settings. To use other directories for your device settings, pass the relative or absolute path to `ncpeek`.
-
-## Operations
-
-Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data. As time goes, more operations could be added.
+> Default directory is [ncpeek/devices](ncpeek/devices/) for `ncpeek` to look for the device settings. To use other directories for your device settings, add the relative or absolute path to the filename.
 
 ## Filters
 
-> The ncpeek supports relative and absolute paths. Default directory is [ncpeek/filters](ncpeek/filters)
+> Default directory is [ncpeek/filters](ncpeek/filters). To use other directories for your filters, add the relative or absolute path to the filename.
 
 ### XML
 
@@ -172,6 +170,10 @@ The following formats are accepted:
   ```python
     def set_xpath_filter(self, xpath_filter: str) -> None:
   ```
+
+## Operations
+
+Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data. As time goes, more operations could be added.
 
 ### Parsers
 
