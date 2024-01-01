@@ -24,7 +24,13 @@ It will yield this result.
     "ip": "sandbox-iosxr-1.cisco.com",
     "device": "sandbox-iosxr-1.cisco.com",
     "field": "generic",
-    "data": { "system": { "state": { "hostname": "sandbox-iosxr" } } }
+    "data": {
+      "system": {
+        "state": {
+          "hostname": "sandbox-iosxr"
+        }
+      }
+    }
   }
 ]
 ```
@@ -87,14 +93,13 @@ from ncpeek.client import NetconfClient
 
 def api_call() -> None:
     """Example NetconfClient API"""
-    result = []
     client = NetconfClient()
     client.set_devices_settings(xr_device_settings)
     client.set_xml_filter(xml_filter)
     try:
-        result = client.run()
+        result = client.fetch()
     except Exception as err:
-        result.append({"error": f"{err=}"})
+        result = [{"error": f"{err=}"}]
     print(result)
 ```
 

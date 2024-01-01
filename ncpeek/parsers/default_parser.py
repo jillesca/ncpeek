@@ -1,4 +1,3 @@
-from collections import deque
 from ncpeek.netconf_parsers import Parser
 from ncpeek.netconf_devices import NetconfDevice
 from ncpeek.parsers.remove_namespaces import (
@@ -22,13 +21,13 @@ class DefaultParser(Parser):
 
         Args:
             data_to_parse (Dict): The data to parse.
-            net_device (NetconfDevice): The device the data is related to.
+            device (NetconfDevice): The device the data is related to.
             netconf_filter_id (str): The filter ID used for netconf.
 
         Returns:
             List[Dict]: The parsed data.
         """
-        data = remove_namespaces_from_dict(data_to_parse["data"])
+        data = remove_namespaces_from_dict(data=data_to_parse["data"])
         return [
             {
                 "ip": device.host,

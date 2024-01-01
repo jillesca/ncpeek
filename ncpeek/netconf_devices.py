@@ -24,9 +24,13 @@ class NetconfDevice:
         Converts some attributes' string values to boolean.
         """
         self._check_required_fields()
-        self.hostkey_verify = self._parse_boolean(self.hostkey_verify)
-        self.allow_agent = self._parse_boolean(self.allow_agent)
-        self.look_for_keys = self._parse_boolean(self.look_for_keys)
+        self.hostkey_verify = self.convert_str_to_bool(
+            str_value=self.hostkey_verify
+        )
+        self.allow_agent = self.convert_str_to_bool(str_value=self.allow_agent)
+        self.look_for_keys = self.convert_str_to_bool(
+            str_value=self.look_for_keys
+        )
 
     def _check_required_fields(self) -> None:
         """
@@ -52,18 +56,18 @@ class NetconfDevice:
             )
 
     @staticmethod
-    def _parse_boolean(value: Union[bool, str]) -> bool:
+    def convert_str_to_bool(str_value: Union[bool, str]) -> bool:
         """
         This function parses boolean values from string representation.
         Needed as a string "False" in JSON is considered True in Python.
         """
-        if isinstance(value, bool):
-            return value
-        if value.lower() == "true":
+        if isinstance(str_value, bool):
+            return str_value
+        if str_value.lower() == "true":
             return True
-        if value.lower() == "false":
+        if str_value.lower() == "false":
             return False
         else:
             raise ValueError(
-                f"Invalid boolean value: {value} for NetconfDevice option."
+                f"Invalid boolean value: {str_value} for NetconfDevice option."
             )

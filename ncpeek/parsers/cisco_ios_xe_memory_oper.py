@@ -36,7 +36,7 @@ class CiscoIOSXEMemoryParser(Parser):
         """
         self.device = device
         self.netconf_filter_id = netconf_filter_id
-        return self._extract_memory_statistics(data_to_parse)
+        return self._extract_memory_statistics(rpc_reply=data_to_parse)
 
     def _extract_memory_statistics(self, rpc_reply: dict) -> str:
         stats: list = []
@@ -45,7 +45,7 @@ class CiscoIOSXEMemoryParser(Parser):
         ]
 
         for entry in xpath:
-            stats.append(self._get_memory_stats(entry))
+            stats.append(self._get_memory_stats(entry=entry))
         return stats
 
     def _get_memory_stats(self, entry: dict) -> dict:

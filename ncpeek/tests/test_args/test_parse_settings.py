@@ -62,7 +62,7 @@ def test_set_xml_filter():
     parser.set_xml_filter(test_xml_filter_file)
 
     assert parser.get_filter_id() == test_xml_filter_file
-    assert parser.get_network_filter() == network_filter_result
+    assert parser.get_netconf_filter() == network_filter_result
 
 
 def test_set_xml_filter_as_string():
@@ -81,7 +81,7 @@ def test_set_xml_filter_as_string():
     parser.set_xml_filter(test_xml_filter_string)
 
     assert parser.get_filter_id() == "generic"
-    assert parser.get_network_filter() == test_xml_filter_string
+    assert parser.get_netconf_filter() == test_xml_filter_string
 
 
 def test_set_xpath_filter():
@@ -103,4 +103,4 @@ def test_set_xpath_filter():
     parser.set_xpath_filter(test_xpath_filter)
 
     assert parser.get_filter_id() == test_xpath_filter
-    assert parser.get_network_filter() == xpath_filter_result
+    assert parser.get_netconf_filter() == xpath_filter_result

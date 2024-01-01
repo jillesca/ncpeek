@@ -31,15 +31,17 @@ class InterfaceStatsIOSXEParser(Parser):
         """
         self.device = device
         self.netconf_filter_id = netconf_filter_id
-        return self._interface_stats(data_to_parse)
+        return self._interface_stats(data=data_to_parse)
 
     def _interface_stats(self, data: dict) -> list[dict]:
         stats: list = []
         interfaces: dict = data["data"]["interfaces"]["interface"]
 
         for interface in interfaces:
-            metadata = self._extract_metadata(interface)
-            intf_stats = self._extract_statistics(interface["statistics"])
+            metadata = self._extract_metadata(interface=interface)
+            intf_stats = self._extract_statistics(
+                interface=interface["statistics"]
+            )
             stats.append(dict(ChainMap(metadata, intf_stats)))
         return stats
 

@@ -32,14 +32,14 @@ class InterfaceStatsIETF_IOSXEParser(Parser):
         """
         self.device = device
         self.netconf_filter_id = netconf_filter_id
-        return self._extract_interface_stats(data_to_parse)
+        return self._extract_interface_stats(data=data_to_parse)
 
     def _extract_interface_stats(self, data: dict) -> list[dict]:
         stats: list = []
         interfaces: dict = data["data"]["interfaces-state"]["interface"]
 
         for interface in interfaces:
-            stats.append(self._get_interface_stats(interface))
+            stats.append(self._get_interface_stats(interface=interface))
         return stats
 
     def _get_interface_stats(self, interface: dict) -> dict:

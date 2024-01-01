@@ -25,9 +25,9 @@ def append_to_file(filename: str, text: str) -> None:
 
 def resolve_devices_path(filename: str) -> str:
     """Resolve the path of a devices file."""
-    if is_valid_file_path(filename):
+    if is_valid_file_path(filepath=filename):
         return filename
-    return construct_default_devices_path(filename)
+    return construct_default_devices_path(filename=filename)
 
 
 def is_valid_file_path(filepath: str) -> bool:
@@ -47,9 +47,9 @@ def get_script_directory() -> str:
 
 def resolve_filter_path(filename: str) -> str:
     """Resolve the path of a filter file."""
-    if is_valid_file_path(filename):
+    if is_valid_file_path(filepath=filename):
         return filename
-    return construct_default_filter_path(filename)
+    return construct_default_filter_path(filename=filename)
 
 
 def construct_default_filter_path(filename: str) -> str:

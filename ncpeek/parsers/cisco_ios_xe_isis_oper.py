@@ -33,17 +33,17 @@ class ISISStatsIOSXEParser(Parser):
             List[Dict]: The parsed data.
         """
         self.device = device
-        self._extract_neighbor_stats(data_to_parse)
+        self._extract_neighbor_stats(data=data_to_parse)
         self.netconf_filter_id = netconf_filter_id
         return self.stats
 
     def _extract_neighbor_stats(self, data: dict) -> None:
         isis_instances: dict = data["data"]["isis-oper-data"]["isis-instance"]
 
-        for key, value in isis_instances.items():
+        for key, isis_instance in isis_instances.items():
             if "isis-neighbor" in key:
-                self._count_adjcencies(value)
-                self._extract_metadata(value)
+                self._count_adjcencies(instance=isis_instance)
+                self._extract_metadata(instance=isis_instance)
 
     def _count_adjcencies(self, instance: list) -> None:
         """If you have 2 isis interfaces data comes inside a list.
@@ -60,9 +60,11 @@ class ISISStatsIOSXEParser(Parser):
     def _extract_metadata(self, instance: list) -> None:
         if isinstance(instance, list):
             for neighbor in instance:
-                self.stats.append(self._get_neighbor_metadata(neighbor))
+                self.stats.append(
+                    self._get_neighbor_metadata(neighbor=neighbor)
+                )
         else:
-            self.stats.append(self._get_neighbor_metadata(instance))
+            self.stats.append(self._get_neighbor_metadata(neighbor=instance))
 
     def _get_neighbor_metadata(self, neighbor: dict) -> dict:
         return {

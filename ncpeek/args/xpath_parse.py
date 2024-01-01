@@ -13,9 +13,9 @@ def extract_xpath(netconf_filter: str) -> tuple:
         return ("xpath", netconf_filter)
 
     if "http://" in netconf_filter or "https://" in netconf_filter:
-        return _extract_xpath_from_url(netconf_filter)
+        return _extract_xpath_from_url(netconf_filter=netconf_filter)
 
-    return _extract_xpath_without_url(netconf_filter)
+    return _extract_xpath_without_url(netconf_filter=netconf_filter)
 
 
 def _extract_xpath_from_url(netconf_filter: str) -> tuple:

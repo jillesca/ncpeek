@@ -5,23 +5,31 @@ from ncpeek.netconf_devices import NetconfDevice
 
 
 @dataclass
-class NetconfSessionManager:
-    """Handles the network configuration session for a device."""
+class NetconfSession:
+    """Handles the netconf session for a device."""
 
     device: NetconfDevice
-    netconf_filter: Optional[str] = None
+    netconf_filter: str
+    operation: str
+    result: Optional[str] = None
 
-    def retrieve_data(self, netconf_filter: str) -> str:
+    def __post_init__(self) -> None:
         """
-        Retrieves data from the device using the specified Netconf filter.
+        Executes the netconf operation.
 
-        Args: netconf_filter: The filter to use for the Netconf GET operation.
-        Returns: The result of the Netconf GET operation.
+        Returns: The result of the Netconf  operation.
         """
-        self.netconf_filter = netconf_filter
-        return self._perform_operation(operation="GET")
+        self.result = self._perform_operation()
 
-    def _perform_operation(self, operation: str) -> str:
+    def reply(self) -> str:
+        """retrieves rpc reply from operation performed.
+
+        Returns:
+            str: rpc result from data_xml attribute.
+        """
+        return self.result.data_xml
+
+    def _perform_operation(self) -> str:
         """
         Executes the specified operation on the device.
 
@@ -29,8 +37,8 @@ class NetconfSessionManager:
         Returns: The result of the operation.
         """
         with self._establish_connection() as session:
-            match operation:
-                case "GET":
+            match self.operation:
+                case "fetch":
                     return session.get(self.netconf_filter)
 
     def _establish_connection(self) -> manager:

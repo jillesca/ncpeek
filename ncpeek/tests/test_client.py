@@ -27,7 +27,9 @@ def test_set_devices_settings(client):
         }
     ]
     client.set_devices_settings(test_device_settings_file)
-    assert client.settings.get_device_settings() == device_settings_file_result
+    assert (
+        client._settings.get_device_settings() == device_settings_file_result
+    )
 
 
 def test_set_xml_filter(client):
@@ -37,7 +39,7 @@ def test_set_xml_filter(client):
     test_xml_filter_file = "Cisco-IOS-XR-hostname.xml"
 
     client.set_xml_filter(test_xml_filter_file)
-    assert client.settings.get_filter_id() == test_xml_filter_file
+    assert client._settings.get_filter_id() == test_xml_filter_file
 
 
 def test_set_xpath_filter(client):
@@ -48,4 +50,4 @@ def test_set_xpath_filter(client):
         "http://cisco.com/ns/yang/Cisco-IOS-XE-native:/native/hostname"
     )
     client.set_xpath_filter(test_xpath_filter)
-    assert client.settings.get_filter_id() == test_xpath_filter
+    assert client._settings.get_filter_id() == test_xpath_filter
