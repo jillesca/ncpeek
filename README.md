@@ -29,7 +29,7 @@ Will yield this result.
 ]
 ```
 
-If you need to manipulate the shape of the data or add some logic, you can add a custom parser for your xml filter. See [Adding a Parser](#adding-a-parser) for instructions.
+If you need to manipulate the shape of the data or add some logic, you can add a custom parser for your xml filter or xpath. See [Adding a Parser](#adding-a-parser) for instructions.
 
 ## Usage
 
@@ -191,10 +191,75 @@ If you use `vscode`, start `poetry shell` and then start vscode with `code .`
 
 ### Adding a Parser
 
-If you want to add your own parser. You need to:
+To add a custom parser follow the steps below:
 
-- Create a parser under [the parsers directory](ncpeek/parsers)
-  - You parser must implement the `Parser` class. See an [existing parser for an example](ncpeek/parsers/cisco_ios_xe_memory_oper.py#L8)
-- Add your new parser to [the factory file](ncpeek/factory/factory_mappings.py#L5) under the match statement.
-  - If using a `xml` file, use the file name as ID, including the `.xml` extension.
-  - If using `xpath`, use the whole xpath expression.
+1. Clone this repository.
+2. Create a parser under [the parsers directory](ncpeek/parsers)
+
+   1. You parser must implement the `Parser` class. See an [existing parser for an example](ncpeek/parsers/cisco_ios_xe_memory_oper.py#L8)
+
+   2. the `parse` function must take three arguments and return a list with a dictionary inside.
+
+      ```python
+          def parse(
+            self,
+            data_to_parse: dict,
+            device: NetconfDevice,
+            netconf_filter_id: str,
+        ) -> list[dict]:
+      ```
+
+   3. The variable `data_to_parse` holds a dictionary with **data** as key, and the rpc-reply as the value.
+
+      ```python
+      {
+          "data": {
+              "@xmlns": "urn:ietf:params:xml:ns:netconf:base:1.0",
+              "@xmlns:nc": "urn:ietf:params:xml:ns:netconf:base:1.0",
+              "memory-statistics": {
+                  "@xmlns": "http://cisco.com/ns/yang/Cisco-IOS-XE-memory-oper",
+                  "memory-statistic": [
+                      {
+                          "name": "Processor",
+                          "total-memory": "2028113884",
+                          "used-memory": "192040880",
+                      },
+                  ],
+              },
+          }
+      }
+      ```
+
+   4. Review the [tests for the parsers](ncpeek/tests/test_parsers/) to get more familiar.
+
+   5. Is recommended to return the following fields beside the data on your parser
+
+      ```python
+        "field": self.netconf_filter_id,
+        "device": self.device.host,
+        "ip": self.device.host,
+      ```
+
+3. Add your new parser to [the factory mapping.](ncpeek/factory/factory_mappings.py#L3) This way, `ncpeek` knows which parser to use for which filter.
+
+   1. Follow the dictionary structure, where the first keys are the name of the filter you are using.
+
+      1. If using a `xml` file, use the file name as ID, including the `.xml` extension.
+      2. If using `xpath`, use the whole xpath expression.
+
+   2. Then on the second level of the dictionary, add the module that has your parser and the class to import.
+
+   3. This is an example of the mappings used.
+
+      ```python
+      PARSER_MAPPING: Dict[str, Dict[str, str]] = {
+          "default_parser": {
+              "module": "ncpeek.parsers.default_parser",
+              "class": "DefaultParser",
+          },
+          "cisco_xe_ietf-interfaces.xml": {
+              "module": "ncpeek.parsers.cisco_xe_ietf_interfaces",
+              "class": "InterfaceStatsIETF_IOSXEParser",
+          },
+      }
+      ```
