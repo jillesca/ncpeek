@@ -33,7 +33,7 @@ For more complex data manipulation or logic, you can add a custom parser for you
 
 ## Use cases
 
-I developed originally `ncpeek` be used within [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) to gather telemetry data from network devices and print the metrics. This was showcased in a [demo presented a Cisco Impact 2023.](https://github.com/jillesca/open_telemetry_network_impact) In this scenario, a CLI client with a simple interface was all I needed.
+I developed originally `ncpeek` be used within [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) to gather telemetry data from network devices and print the metrics. This was showcased in a [demo presented at Cisco Impact 2023.](https://github.com/jillesca/open_telemetry_network_impact) In this scenario, a CLI client with a simple interface was what I needed.
 
 For an upcoming talk I will deliver at Cisco Live Amsterdam 2024, I improved the netconf client and added an API layer. This allows other systems, such as AI, to call `ncpeek` and fetch data from network devices. For this use case, I needed a simple API for the AI to use.
 
@@ -216,7 +216,7 @@ poetry install
 peotry shell
 ```
 
-If you use `vscode`, start `poetry shell` and then start vscode with `code .`
+> If you use `vscode`, start `poetry shell` and then start vscode with `code .`
 
 ### Adding a Parser
 
