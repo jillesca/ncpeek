@@ -17,7 +17,6 @@ def remove_namespaces_from_dict(
 
     Args:
         data (Dict[str, Any]): The original dictionary.
-        keys_to_remove (Set[str]): A set of keys to remove from the dictionary.
         depth_limit (int): The maximum depth to search into the dictionary.
                            Default is 10.
                            After the depth is reached, the remaining
