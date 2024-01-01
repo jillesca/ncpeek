@@ -124,7 +124,7 @@ You can add multiple devices under one json array, however the data is retrieved
 
 Under `ncpeek/devices` you can find two examples, [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
 
-> Default directory is [ncpeek/devices](ncpeek/devices/) for `ncpeek` to look for the device settings. To use other directories for your device settings, add the relative or absolute path to the filename.
+> Default directory is [ncpeek/devices](ncpeek/devices/) for `ncpeek` to look for the device settings. To use other directories, add the relative or absolute path to the filename.
 
 ## Filters
 
@@ -165,7 +165,7 @@ The following formats are accepted:
     --xpath_filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
     ```
 
-- **API.** `xpath` string.. Use the [`set_xpath_filter`](ncpeek/client.py#L46) method.
+- **API.** `xpath` string. Use the [`set_xpath_filter`](ncpeek/client.py#L46) method.
 
   ```python
     def set_xpath_filter(self, xpath_filter: str) -> None:
@@ -175,18 +175,20 @@ The following formats are accepted:
 
 Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data. As time goes, more operations could be added.
 
-### Parsers
+### Built-in filters and parsers
 
-At the time of writting :
+You can call directly any of these filters using the [devnet sandbox.](ncpeek/devices/)
 
-- `ietf-interfaces`
-- `Cisco-IOS-XE-interfaces-oper`
-- `Cisco-IOS-XE-memory-oper`
-- `Cisco-IOS-XE-isis-oper`
+- xml filters built-in:
 
-If using the `--xml_filter` option, you can find the xml used under [the filter directory.](ncpeek/filters)
+  - cisco_xe_ietf-interfaces.xml (custom parser added)
+  - Cisco-IOS-XE-interfaces-oper.xml (custom parser added)
+  - Cisco-IOS-XE-memory-oper.xml (custom parser added)
+  - Cisco-IOS-XR-facts.xml
+  - Cisco-IOS-XR-hostname.xml
 
-The python code that parses the RPC reply is found under [the parsers directory](ncpeek/parsers)
+- xpath parser built-in
+  - `http://cisco.com/ns/yang/Cisco-IOS-XE-isis-oper:/isis-oper-data/isis-instance` (custom parser added)
 
 ## Development
 
