@@ -102,7 +102,17 @@ See [api_example.py](examples/api_example.py) for the full example.
 
 - **CLI:** json filename containing the device settings.
 
-- **API:** json filename, valid json or a python dictionary with the same structure.
+  ```bash
+  --device-settings=devnet_xe_sandbox.json
+  ```
+
+- **API:** json filename, valid json string or a python dictionary with the same structure. Use the [`set_devices_settings`](ncpeek/client.py#L27) method.
+
+  ```python
+  def set_devices_settings(
+          self, device_settings: [Union[list, str]]
+      ) -> None:
+  ```
 
 You can add multiple devices under one json array, however the data is retrieved sequencially.
 
