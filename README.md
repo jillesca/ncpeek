@@ -1,10 +1,10 @@
 # ncpeek
 
-`ncpeek` (short for `netconf peek`) is a netconf client that retrieves data using netconf, it uses the `ncclient` library.
+`ncpeek` (short for `netconf peek`) is a netconf client that retrieves data using the `ncclient` library.
 
-By default it will parse the rpc-reply into json removing any namespaces.[^1] It will add some add some additional data as such as `ip`, `device` and `field`.
+It parses the rpc-reply into json format by default, removing any namespaces.[^1] Additional data as such as `ip`, `device` and `field` are also included in the output.
 
-For example, using the following xml filter below
+Here's an example on how `ncpeek` works, using the following xml filter:
 
 ```xml
 <filter>
@@ -16,7 +16,7 @@ For example, using the following xml filter below
 </filter>
 ```
 
-Will yield this result.
+It will yield this result.
 
 ```json
 [
@@ -29,19 +29,17 @@ Will yield this result.
 ]
 ```
 
-If you need to manipulate the shape of the data or add some logic, you can add a custom parser for your xml filter or xpath. See [Adding a Parser](#adding-a-parser) for instructions.
+For more complex data manipulation or logic, you can add a custom parser for your xml filter or xpath. See [Adding a Parser](#adding-a-parser) for instructions.
 
 ## Use cases
 
-I developed originally `ncpeek` be used inside [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) to gather telemetry data from network devices and print the metrics. This was part of a [demo presented a Cisco Impact 2023.](https://github.com/jillesca/open_telemetry_network_impact) In this case, I needed a CLI client with a simple interface.
+I developed originally `ncpeek` be used within [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) to gather telemetry data from network devices and print the metrics. This was showcased in a [demo presented a Cisco Impact 2023.](https://github.com/jillesca/open_telemetry_network_impact) In this scenario, a CLI client with a simple interface was all I needed.
 
-For an upcoming talk I will deliver at Cisco Live Amsterdam 2024, I augmented the netconf client and added an API layer so other systems (such as AI) can call `ncpeek` can grab data from network devices. In this case, I needed a simple API for the AI to use.
+For an upcoming talk I will deliver at Cisco Live Amsterdam 2024, I improved the netconf client and added an API layer. This allows other systems, such as AI, to call `ncpeek` and fetch data from network devices. For this use case, I needed a simple API for the AI to use.
 
 ## Usage
 
-You can use in two ways `ncpeek`; cli or api.
-
-> filters can be `xml` or `xpath`, but only one can be used at a time.
+There are two ways to use `ncpeek`; via the command-line interface (CLI) or through the API. Note that filters can be either `xml` or `xpath`, but only one type can be used at a time.
 
 ### CLI
 
@@ -68,17 +66,19 @@ options:
                         oper:interfaces/interface'
 ```
 
-For example:
+Here's an example of how to use `ncpeek` with a specific device setting and xml filter:
 
 ```bash
 python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xml-filter=Cisco-IOS-XE-memory-oper.xml
 ```
 
+Or with a specific device setting and xpath filter:
+
 ```bash
 python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-native:/native/hostname
 ```
 
-`ncpeek` will then print to stdout the data retrieve from the network device.
+`ncpeek` will print the data retrieved from the network device to stdout.
 
 ### API
 
@@ -98,13 +98,11 @@ def api_call() -> None:
     print(result)
 ```
 
-`ncpeek` will return the data as json.
-
-See [api_example.py](examples/api_example.py) for the full example.
+`ncpeek` will return the data as json. See [api_example.py](examples/api_example.py) for the full example.
 
 ## Device Settings
 
-`ncpeek` expects the device settings under a specific structure.
+The device settings should follow a specific structure.
 
 - **CLI:** json filename containing the device settings.
 
@@ -120,7 +118,7 @@ See [api_example.py](examples/api_example.py) for the full example.
       ) -> None:
   ```
 
-You can add multiple devices under one json array, however the data is retrieved sequencially.
+You can add multiple devices in a single json array. However, please note that the data is retrieved sequencially.
 
 ```json
 [
@@ -138,7 +136,7 @@ You can add multiple devices under one json array, however the data is retrieved
 ]
 ```
 
-Under `ncpeek/devices` you can find two examples, [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
+Find two examples on [ncpeek/devices](ncpeek/devices/): [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
 
 > Default directory is [ncpeek/devices](ncpeek/devices/) for `ncpeek` to look for the device settings. To use other directories, add the relative or absolute path to the filename.
 
@@ -189,7 +187,7 @@ The following formats are accepted:
 
 ## Operations
 
-Currently only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data. As time goes, more operations could be added.
+Currently, `ncpeek` only uses the [GET operation](ncpeek/netconf_session.py#L34) to retrieve data. More operations may be added in future versions.
 
 ### Built-in filters and parsers
 
@@ -208,7 +206,7 @@ You can call directly any of these filters using the [devnet sandbox.](ncpeek/de
 
 ## Development
 
-Install the dependencies needed
+To Install the dependencies needed, use these commands.
 
 ```bash
 poetry install
@@ -261,9 +259,9 @@ To add a custom parser follow the steps below:
       }
       ```
 
-   4. Review the [tests for the parsers](ncpeek/tests/test_parsers/) to get more familiar.
+   > Review the [tests for the parsers](ncpeek/tests/test_parsers/) to get more familiar.
 
-   5. Is recommended to return the following fields beside the data on your parser
+   4. Is recommended to return the following fields beside the data on your parser
 
       ```python
         "field": self.netconf_filter_id,
