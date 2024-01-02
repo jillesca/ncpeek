@@ -50,10 +50,14 @@ class SettingsParser:
 
     def get_device_settings(self) -> str:
         """Get the device settings."""
+        if not self._device_settings:
+            raise ValueError("Device Settings not provided")
         return self._device_settings
 
     def get_filter_id(self) -> str:
         """Get the filter id."""
+        if not self._filter_id:
+            raise ValueError("filter not provided")
         return self._filter_id
 
     def get_netconf_filter(self) -> str:

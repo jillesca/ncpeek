@@ -1,17 +1,30 @@
 [tool.poetry]
 name = "ncpeek"
 version = "0.1.0"
-description = ""
-authors = ["Jesus Illescas"]
-readme = "README.md"
+description = "ncpeek (short for netconf peek) is a netconf client that retrieves data using the ncclient library."
+authors = ["Jesus Illescas <jillesca@outlook.com>"]
+readme = ["README.md", "LICENSE"]
 packages = [{include = "ncpeek"}]
+keywords = ["netconf", "ncclient", "NETCONF Python client", "Cisco", "DevNet"]
+LICENSE = "BSD-3-Clause"
+homepage = "https://github.com/jillesca/ncpeek"
+repository = "https://github.com/jillesca/ncpeek"
+classifiers = [
+    Development Status :: 5 - Production/Stable
+    Intended Audience :: Developers
+    License :: OSI Approved :: BSD License
+    Operating System :: OS Independent
+    Programming Language :: Python :: 3.11
+    Topic :: System :: Networking
+    Topic :: System :: Networking :: Monitoring
+    Topic :: Software Development :: Libraries :: Python Modules
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 ncclient = "^0.6.15"
 xmltodict = "^0.13.0"
 paramiko = "<=2.8.1"
-
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
