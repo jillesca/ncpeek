@@ -6,7 +6,7 @@ authors = ["Jesus Illescas <jillesca@outlook.com>"]
 readme = ["README.md", "LICENSE"]
 packages = [{include = "ncpeek"}]
 keywords = ["netconf", "ncclient", "NETCONF Python client", "Cisco", "DevNet"]
-LICENSE = "BSD-3-Clause"
+license = "BSD-3-Clause"
 homepage = "https://github.com/jillesca/ncpeek"
 repository = "https://github.com/jillesca/ncpeek"
 classifiers = [
