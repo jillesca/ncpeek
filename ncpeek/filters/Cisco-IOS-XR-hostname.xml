@@ -1,0 +1,7 @@
+<filter>
+  <system xmlns="http://openconfig.net/yang/system">
+    <state>
+      <hostname />
+    </state>
+  </system>
+</filter>
