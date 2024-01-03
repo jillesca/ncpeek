@@ -53,13 +53,13 @@ See the file [Contributing](CONTRIBUTING.md) for more information.
 
 ## Installation
 
-For CLI or API you can use `ncpeek` via pip.
+For CLI or API you can install `ncpeek` via pip.[See Details on pypi.](https://pypi.org/project/ncpeek/)
 
 ```bash
  pip install ncpeek
 ```
 
-To add a custom parser or work directly with the code see [Development](#development)
+To add a custom parser or work directly with the code [see Development.](#development)
 
 > `ncpeek` was developed on Python 3.11, consider using a virtual or dedicated environment when use it.
 
