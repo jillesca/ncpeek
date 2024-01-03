@@ -146,7 +146,7 @@ The device settings should follow a specific structure.
       ) -> None:
   ```
 
-You can add multiple devices in a single json array. However, please note that the data is retrieved sequencially.
+Here, you can find an example of the device settings. The required fields are `host`, `username` and `password` the rest of the fields take defaults on [netconf_device](ncpeek/netconf_devices.py#L6)
 
 ```json
 [
@@ -164,13 +164,11 @@ You can add multiple devices in a single json array. However, please note that t
 ]
 ```
 
+You can add multiple devices in a single json array. However, please note that the data is retrieved sequencially.
+
 See examples on [ncpeek/devices](ncpeek/devices/)
 
-> Default directory is [ncpeek/devices](ncpeek/devices/) for `ncpeek` to look for the device settings. To use other directories, add the relative or absolute path to the filename.
-
 ## Filters
-
-> Default directory is [ncpeek/filters](ncpeek/filters). To use other directories for your filters, add the relative or absolute path to the filename.
 
 ### XML
 
@@ -221,15 +219,17 @@ Currently, `ncpeek` only uses the [GET operation](ncpeek/netconf_session.py#L34)
 
 ### Built-in filters and parsers
 
-You can call directly any of these filters using the [devnet sandbox.](ncpeek/devices/)
+You can call directly any of these filters by its name, without specifying their path.
+
+Use the [devnet sandbox](ncpeek/devices/) for testing.
 
 - [xml filters built-in](ncpeek/filters/):
 
-  - cisco_xe_ietf-interfaces.xml (custom parser added)
-  - Cisco-IOS-XE-interfaces-oper.xml (custom parser added)
-  - Cisco-IOS-XE-memory-oper.xml (custom parser added)
-  - Cisco-IOS-XR-facts.xml
-  - Cisco-IOS-XR-hostname.xml
+  - `cisco_xe_ietf-interfaces.xml` (custom parser added)
+  - `Cisco-IOS-XE-interfaces-oper.xml` (custom parser added)
+  - `Cisco-IOS-XE-memory-oper.xml` (custom parser added)
+  - `Cisco-IOS-XR-facts.xml`
+  - `Cisco-IOS-XR-hostname.xml`
 
 - xpath parser built-in
   - `http://cisco.com/ns/yang/Cisco-IOS-XE-isis-oper:/isis-oper-data/isis-instance` (custom parser added)
@@ -251,6 +251,11 @@ peotry shell
 If you don't have poetry, you can install it with `curl -sSL https://install.python-poetry.org | python3 -`
 
 If you want to use pip, you need to install the dependencies manually. The only requirement is paramiko <=2.8.1 for working with older XR and Junos versions.
+
+### Default directories
+
+- Device Settings default directory is [ncpeek/devices](ncpeek/devices/).
+- XML Filters default directory is [ncpeek/filters](ncpeek/filters).
 
 ### Adding a Parser
 
