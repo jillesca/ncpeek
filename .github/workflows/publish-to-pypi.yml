@@ -18,7 +18,7 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
       - name: Run tests
-        run: poetry pytest
+        run: poetry run pytest
       - name: Build a binary wheel and a source tarball
         run: poetry build
       - name: Store the distribution packages
