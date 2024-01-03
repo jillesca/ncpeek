@@ -53,7 +53,7 @@ See the file [Contributing](CONTRIBUTING.md) for more information.
 
 ## Installation
 
-For CLI or API you can install `ncpeek` via pip.[See Details on pypi.](https://pypi.org/project/ncpeek/)
+For CLI or API you can install `ncpeek` via pip. [See Details on pypi.](https://pypi.org/project/ncpeek/)
 
 ```bash
  pip install ncpeek
@@ -146,7 +146,15 @@ The device settings should follow a specific structure.
       ) -> None:
   ```
 
-Here, you can find an example of the device settings. The required fields are `host`, `username` and `password` the rest of the fields take defaults on [netconf_device](ncpeek/netconf_devices.py#L6)
+The **required** fields are:
+
+- `host`
+- `username`
+- `password`
+
+The rest of the fields take defaults on [netconf_device](ncpeek/netconf_devices.py#L6)
+
+Here, you can find an example of the device settings.
 
 ```json
 [
@@ -248,9 +256,9 @@ peotry shell
 
 > If you use `vscode`, start `poetry shell` and then start vscode with `code .`
 
-If you don't have poetry, you can install it with `curl -sSL https://install.python-poetry.org | python3 -`
+In case you don't have poetry, install it with `curl -sSL https://install.python-poetry.org | python3 -`
 
-If you want to use pip, you need to install the dependencies manually. The only requirement is **paramiko <=2.8.1** for working with older XR and Junos versions.
+If you want to use pip, install the dependencies manually. The only requirement is **paramiko <=2.8.1** for working with older XR and Junos versions.
 
 If you ran into module import problems, add the root project to your `PYHTONPATH`
 
