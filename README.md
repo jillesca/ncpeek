@@ -250,7 +250,13 @@ peotry shell
 
 If you don't have poetry, you can install it with `curl -sSL https://install.python-poetry.org | python3 -`
 
-If you want to use pip, you need to install the dependencies manually. The only requirement is paramiko <=2.8.1 for working with older XR and Junos versions.
+If you want to use pip, you need to install the dependencies manually. The only requirement is **paramiko <=2.8.1** for working with older XR and Junos versions.
+
+If you ran into module import problems, add the root project to your `PYHTONPATH`
+
+```bash
+export PYTHONPATH=.
+```
 
 ### Default directories
 
