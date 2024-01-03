@@ -94,11 +94,14 @@ class NetconfClient:
         return parsed_data
 
 
-def run_ncpeek_cli() -> str:
+def cli() -> None:
     """Runs the netconf client using the CLI with the arguments supplied."""
     client = NetconfClient()
-    print(client.execute_cli())
+    try:
+        print(client.execute_cli())
+    except Exception as err:
+        print(f"Error found: {err=}")
 
 
 if __name__ == "__main__":
-    run_ncpeek_cli()
+    cli()

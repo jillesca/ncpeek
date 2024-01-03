@@ -71,8 +71,13 @@ class SettingsParser:
             self._network_filter = filter_id
             return
 
-        self._filter_id = remove_path_from_filename(filename=filter_id)
-        network_filter = read_file(resolve_filter_path(filename=filter_id))
+        try:
+            self._filter_id = remove_path_from_filename(filename=filter_id)
+            network_filter = read_file(resolve_filter_path(filename=filter_id))
+        except Exception as err:
+            raise ValueError(
+                f"Error opening file {err=}. Make sure a valid filename is provided for a xml filter."
+            ) from err
         if is_string_valid_xml(network_filter):
             self._network_filter = network_filter
         else:
