@@ -43,6 +43,26 @@ I developed originally `ncpeek` to be used within [Telegraf](https://www.influxd
 
 For an upcoming talk I will deliver at Cisco Live Amsterdam 2024, I improved the netconf client and added an API layer. This allows other systems, such as AI, to call `ncpeek` and fetch data from network devices. For this use case, I needed a simple API for the AI to use.
 
+### State
+
+It's important to note upfront that `ncpeek` is a pet project primarily used for demos. So far, testing has been limited to C8000V 17.09.02a and IOSXR 7.3.2 running on the DevNet always-on sandbox.
+
+PRs are welcome, but the support provided might be limited due to the nature of the project. If you have specific requirements or need extensive modifications, you might find it more efficient to fork the project.
+
+See the file [Contributing](CONTRIBUTING.md) for more information.
+
+## Installation
+
+For CLI or API you can use `ncpeek` via pip.
+
+```bash
+ pip install ncpeek
+```
+
+To add a custom parser or work directly with the code see [Development](#development)
+
+> `ncpeek` was developed on Python 3.11, consider using a virtual or dedicated environment when use it.
+
 ## Usage
 
 There are two ways to use `ncpeek`; via the command-line interface (CLI) or through the API. Note that filters can be either `xml` or `xpath`, but only one type can be used at a time.
@@ -53,9 +73,11 @@ There are two ways to use `ncpeek`; via the command-line interface (CLI) or thro
 ❯ python -m ncpeek
 usage: __main__.py [-h] [-d DEVICE_SETTINGS] (-x XML_FILTER | -p XPATH_FILTER)
 
-'ncpeek' is a versatile netconf client designed to fetch data from various devices.
-The client can be utilized in two distinct ways, either via Command Line Interface (CLI) or Application Programming Interface (API).
-The data retrieval can be filtered through either XML or XPath, however, only one filter type can be applied at a given time.
+'ncpeek' is a netconf client designed to fetch data from various devices.
+The client can be utilized in two distinct ways,
+either via Command Line Interface (CLI) or Application Programming Interface (API).
+The data retrieval can be filtered through either XML or XPath,
+however, only one filter type can be applied at a given time.
 Note that in CLI mode, only filenames can be treated as arguments.
 Source code: https://github.com/jillesca/ncpeek
 
@@ -155,7 +177,7 @@ See examples on [ncpeek/devices](ncpeek/devices/)
 - **CLI.** filename with the xml filter.
 
   ```python
-  --xml_filter=cisco_xe_ietf-interfaces.xml
+  --xml-filter=cisco_xe_ietf-interfaces.xml
   ```
 
   - See examples on [ncpeek/filters](ncpeek/filters/)
@@ -180,11 +202,11 @@ The following formats are accepted:
   - Examples:
 
     ```bash
-    --xpath_filter=interfaces/interface
+    --xpath-filter=interfaces/interface
     ```
 
     ```bash
-    --xpath_filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
+    --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
     ```
 
 - **API.** `xpath` string. Use the [`set_xpath_filter`](ncpeek/client.py#L46) method.
@@ -225,6 +247,10 @@ peotry shell
 ```
 
 > If you use `vscode`, start `poetry shell` and then start vscode with `code .`
+
+If you don't have poetry, you can install it with `curl -sSL https://install.python-poetry.org | python3 -`
+
+If you want to use pip, you need to install the dependencies manually. The only requirement is paramiko <=2.8.1 for working with older XR and Junos versions.
 
 ### Adding a Parser
 
@@ -298,5 +324,10 @@ To add a custom parser follow the steps below:
           },
       }
       ```
+
+## FAQ
+
+- Why I see a deprecation message?
+  - Unfortunately, paramiko >=2.9 and IOS-XR 7.3.2 don't go well together, so I had to use an old paramiko <=2.8.1 which has this deprecation message. See [ncclient/issues/526](https://github.com/ncclient/ncclient/issues/526#issuecomment-1868278440) for more info.
 
 [^1]: Up to a maximum of 10 nested dictionaries. After that, all remaining nested directionaries will be return as they are. This [limit can be configured](ncpeek/parsers/remove_namespaces.py#L12) per custom parser.

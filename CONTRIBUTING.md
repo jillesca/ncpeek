@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to `ncpeek`. We value your effort and contributions, but it's important to note upfront that `ncpeek` is a pet project primarily used for demos. While I welcome your contributions in the form of pull requests and bug reports, please understand that the support provided might be limited due to the nature of the project. If you have specific requirements or need extensive modifications, you might find it more efficient to fork the project.
+Thank you for your interest in contributing to `ncpeek`. I appreciate your effort and contributions, but it's important to note upfront that `ncpeek` is a pet project primarily used for demos. While I welcome your contributions in the form of pull requests and bug reports, please understand that the support provided might be limited due to the nature of the project. If you have specific requirements or need extensive modifications, you might find it more efficient to fork the project.
 
 ## Pull Requests
 

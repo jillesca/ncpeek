@@ -2,9 +2,11 @@ import sys
 import argparse
 from argparse import RawTextHelpFormatter
 
-NCPEEK_DESCRIPTION = """'ncpeek' is a versatile netconf client designed to fetch data from various devices.
-The client can be utilized in two distinct ways, either via Command Line Interface (CLI) or Application Programming Interface (API).
-The data retrieval can be filtered through either XML or XPath, however, only one filter type can be applied at a given time.
+NCPEEK_DESCRIPTION = """'ncpeek' is a netconf client designed to fetch data from various devices.
+The client can be utilized in two distinct ways, 
+either via Command Line Interface (CLI) or Application Programming Interface (API).
+The data retrieval can be filtered through either XML or XPath, 
+however, only one filter type can be applied at a given time.
 Note that in CLI mode, only filenames can be treated as arguments.
 Source code: https://github.com/jillesca/ncpeek"""
 
