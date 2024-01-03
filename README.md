@@ -43,6 +43,26 @@ I developed originally `ncpeek` to be used within [Telegraf](https://www.influxd
 
 For an upcoming talk I will deliver at Cisco Live Amsterdam 2024, I improved the netconf client and added an API layer. This allows other systems, such as AI, to call `ncpeek` and fetch data from network devices. For this use case, I needed a simple API for the AI to use.
 
+### State
+
+It's important to note upfront that `ncpeek` is a pet project primarily used for demos. So far, testing has been limited to C8000V 17.09.02a and IOSXR 7.3.2 running on the DevNet always-on sandbox.
+
+PRs are welcome, but the support provided might be limited due to the nature of the project. If you have specific requirements or need extensive modifications, you might find it more efficient to fork the project.
+
+See the file [Contributing](CONTRIBUTING.md) for more information.
+
+## Installation
+
+For CLI or API you can install `ncpeek` via pip. [See Details on pypi.](https://pypi.org/project/ncpeek/)
+
+```bash
+ pip install ncpeek
+```
+
+To add a custom parser or work directly with the code [see Development.](#development)
+
+> `ncpeek` was developed on Python 3.11, consider using a virtual or dedicated environment when use it.
+
 ## Usage
 
 There are two ways to use `ncpeek`; via the command-line interface (CLI) or through the API. Note that filters can be either `xml` or `xpath`, but only one type can be used at a time.
@@ -50,38 +70,41 @@ There are two ways to use `ncpeek`; via the command-line interface (CLI) or thro
 ### CLI
 
 ```bash
-❯ python ncpeek/client.py
+❯ python -m ncpeek
+usage: __main__.py [-h] [-d DEVICE_SETTINGS] (-x XML_FILTER | -p XPATH_FILTER)
 
-usage: client.py [-h] [-d DEVICE_SETTINGS] (-x XML_FILTER | -p XPATH_FILTER)
-
-Netconf client to gather data from devices. The client can be used via CLI or API. Provide
-device credentials and options via a json file. User must specify if an XML filter or
-XPath is to be used. Note that only one can be used.
+'ncpeek' is a netconf client designed to fetch data from various devices.
+The client can be utilized in two distinct ways,
+either via Command Line Interface (CLI) or Application Programming Interface (API).
+The data retrieval can be filtered through either XML or XPath,
+however, only one filter type can be applied at a given time.
+Note that in CLI mode, only filenames can be treated as arguments.
+Source code: https://github.com/jillesca/ncpeek
 
 options:
   -h, --help            show this help message and exit
   -d DEVICE_SETTINGS, --device-settings DEVICE_SETTINGS
-                        Device Settings in json format. See examples under ncpeek/devices
+                        Specify JSON filename containing device settings.
+                        Visit https://github.com/jillesca/ncpeek/tree/main/ncpeek/devices for examples.
   -x XML_FILTER, --xml-filter XML_FILTER
-                        Netconf Filter to apply in XML format. See examples under
-                        ncpeek/filters
+                        Specify XML filename containing XML filter.
+                        Visit https://github.com/jillesca/ncpeek/tree/main/ncpeek/filters for more details.
   -p XPATH_FILTER, --xpath-filter XPATH_FILTER
-                        Netconf Filter to apply in XPath. Formats: <xpath> OR
-                        <namespace>:<xpath> Example: 'interfaces/interface' OR
-                        'http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-
-                        oper:interfaces/interface'
+                        Formats: <xpath> OR <namespace>:<xpath>
+                        Example: 'interfaces/interface' OR
+                        'http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface'
 ```
 
 Here's an example of how to use `ncpeek` with a specific device setting and xml filter:
 
 ```bash
-python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xml-filter=Cisco-IOS-XE-memory-oper.xml
+python -m ncpeek --device-settings=devnet_xe_sandbox.json --xml-filter=Cisco-IOS-XE-memory-oper.xml
 ```
 
 Or with a specific device setting and xpath filter:
 
 ```bash
-python ncpeek/client.py --device-settings=devnet_xe_sandbox.json --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-native:/native/hostname
+python -m ncpeek --device-settings=devnet_xe_sandbox.json --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-native:/native/hostname
 ```
 
 `ncpeek` will print the data retrieved from the network device to stdout.
@@ -123,7 +146,15 @@ The device settings should follow a specific structure.
       ) -> None:
   ```
 
-You can add multiple devices in a single json array. However, please note that the data is retrieved sequencially.
+The **required** fields are:
+
+- `host`
+- `username`
+- `password`
+
+The rest of the fields take defaults on [netconf_device](ncpeek/netconf_devices.py#L6)
+
+Here, you can find an example of the device settings.
 
 ```json
 [
@@ -141,21 +172,21 @@ You can add multiple devices in a single json array. However, please note that t
 ]
 ```
 
-Find two examples on [ncpeek/devices](ncpeek/devices/): [devnet_xe_sandbox.json](ncpeek/devices/devnet_xe_sandbox.json) and [devnet_xr_sandbox.json](ncpeek/devices/devnet_xr_sandbox.json).
+You can add multiple devices in a single json array. However, please note that the data is retrieved sequencially.
 
-> Default directory is [ncpeek/devices](ncpeek/devices/) for `ncpeek` to look for the device settings. To use other directories, add the relative or absolute path to the filename.
+See examples on [ncpeek/devices](ncpeek/devices/)
 
 ## Filters
-
-> Default directory is [ncpeek/filters](ncpeek/filters). To use other directories for your filters, add the relative or absolute path to the filename.
 
 ### XML
 
 - **CLI.** filename with the xml filter.
 
   ```python
-  --xml_filter=cisco_xe_ietf-interfaces.xml
+  --xml-filter=cisco_xe_ietf-interfaces.xml
   ```
+
+  - See examples on [ncpeek/filters](ncpeek/filters/)
 
 - **API.** filename or xml string. Use the [`set_xml_filter`](ncpeek/client.py#L38) method.
 
@@ -177,11 +208,11 @@ The following formats are accepted:
   - Examples:
 
     ```bash
-    --xpath_filter=interfaces/interface
+    --xpath-filter=interfaces/interface
     ```
 
     ```bash
-    --xpath_filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
+    --xpath-filter=http://cisco.com/ns/yang/Cisco-IOS-XE-interfaces-oper:interfaces/interface
     ```
 
 - **API.** `xpath` string. Use the [`set_xpath_filter`](ncpeek/client.py#L46) method.
@@ -196,15 +227,17 @@ Currently, `ncpeek` only uses the [GET operation](ncpeek/netconf_session.py#L34)
 
 ### Built-in filters and parsers
 
-You can call directly any of these filters using the [devnet sandbox.](ncpeek/devices/)
+You can call directly any of these filters by its name, without specifying their path.
+
+Use the [devnet sandbox](ncpeek/devices/) for testing.
 
 - [xml filters built-in](ncpeek/filters/):
 
-  - cisco_xe_ietf-interfaces.xml (custom parser added)
-  - Cisco-IOS-XE-interfaces-oper.xml (custom parser added)
-  - Cisco-IOS-XE-memory-oper.xml (custom parser added)
-  - Cisco-IOS-XR-facts.xml
-  - Cisco-IOS-XR-hostname.xml
+  - `cisco_xe_ietf-interfaces.xml` (custom parser added)
+  - `Cisco-IOS-XE-interfaces-oper.xml` (custom parser added)
+  - `Cisco-IOS-XE-memory-oper.xml` (custom parser added)
+  - `Cisco-IOS-XR-facts.xml`
+  - `Cisco-IOS-XR-hostname.xml`
 
 - xpath parser built-in
   - `http://cisco.com/ns/yang/Cisco-IOS-XE-isis-oper:/isis-oper-data/isis-instance` (custom parser added)
@@ -222,6 +255,21 @@ peotry shell
 ```
 
 > If you use `vscode`, start `poetry shell` and then start vscode with `code .`
+
+In case you don't have poetry, install it with `curl -sSL https://install.python-poetry.org | python3 -`
+
+If you want to use pip, install the dependencies manually. The only requirement is **paramiko <=2.8.1** for working with older XR and Junos versions.
+
+If you ran into module import problems, add the root project to your `PYHTONPATH`
+
+```bash
+export PYTHONPATH=.
+```
+
+### Default directories
+
+- Device Settings default directory is [ncpeek/devices](ncpeek/devices/).
+- XML Filters default directory is [ncpeek/filters](ncpeek/filters).
 
 ### Adding a Parser
 
@@ -295,5 +343,10 @@ To add a custom parser follow the steps below:
           },
       }
       ```
+
+## FAQ
+
+- Why I see a deprecation message?
+  - Unfortunately, paramiko >=2.9 and IOS-XR 7.3.2 don't go well together, so I had to use an old paramiko <=2.8.1 which has this deprecation message. See [ncclient/issues/526](https://github.com/ncclient/ncclient/issues/526#issuecomment-1868278440) for more info.
 
 [^1]: Up to a maximum of 10 nested dictionaries. After that, all remaining nested directionaries will be return as they are. This [limit can be configured](ncpeek/parsers/remove_namespaces.py#L12) per custom parser.
