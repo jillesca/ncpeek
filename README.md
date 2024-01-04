@@ -142,7 +142,7 @@ The device settings should follow a specific structure.
 
   ```python
   def set_devices_settings(
-          self, device_settings: [Union[list, str]]
+          self, device_settings: Union[list, str]
       ) -> None:
   ```
 
