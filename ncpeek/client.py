@@ -28,9 +28,7 @@ class NetconfClient:
         self._settings.parse_arguments()
         return self._run()
 
-    def set_devices_settings(
-        self, device_settings: [Union[list, str]]
-    ) -> None:
+    def set_devices_settings(self, device_settings: Union[list, str]) -> None:
         """
         API: sets devices settings directly.
         Can be a python list, a json string or a string

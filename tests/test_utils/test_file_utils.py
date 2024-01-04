@@ -5,12 +5,11 @@ from ncpeek.utils.file_utils import (
     read_file,
     append_to_file,
     remove_path_from_filename,
-    resolve_devices_path,
     is_valid_file_path,
     construct_default_devices_path,
     get_script_directory,
-    resolve_filter_path,
     construct_default_filter_path,
+    resolve_path,
 )
 
 
@@ -75,18 +74,20 @@ def test_get_script_directory():
     assert os.path.exists(get_script_directory())
 
 
-def test_resolve_devices_path():
+def test_read_settings():
     """
     Test resolving the path of a devices file.
     """
     with TemporaryDirectory() as temp_dir:
-        test_file = os.path.join(temp_dir, "test.txt")
+        test_file = os.path.realpath(
+            os.path.expanduser(os.path.join(temp_dir, "test.txt"))
+        )
         with open(test_file, "w", encoding="utf-8") as f:
             f.write("Test content")
 
-        assert resolve_devices_path(test_file) == test_file
-        assert resolve_devices_path(
-            "non_existent_file"
+        assert resolve_path(test_file, kind="settings") == test_file
+        assert resolve_path(
+            "non_existent_file", kind="settings"
         ) == construct_default_devices_path("non_existent_file")
 
 
@@ -99,18 +100,20 @@ def test_construct_default_devices_path():
     assert construct_default_devices_path(filename) == expected_path
 
 
-def test_resolve_filter_path():
+def test_read_filter():
     """
     Test resolving the path of a filter file.
     """
     with TemporaryDirectory() as temp_dir:
-        test_file = os.path.join(temp_dir, "test.txt")
+        test_file = os.path.realpath(
+            os.path.expanduser(os.path.join(temp_dir, "test.txt"))
+        )
         with open(test_file, "w", encoding="utf-8") as f:
             f.write("Test content")
 
-        assert resolve_filter_path(test_file) == test_file
-        assert resolve_filter_path(
-            "non_existent_file"
+        assert resolve_path(test_file, kind="filter") == test_file
+        assert resolve_path(
+            "non_existent_file", kind="filter"
         ) == construct_default_filter_path("non_existent_file")
 
 

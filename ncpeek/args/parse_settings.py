@@ -1,19 +1,16 @@
 from typing import Optional
 from dataclasses import dataclass
-
-
-from ncpeek.utils.text_utils import (
-    convert_json_to_dict,
-    is_string_valid_xml,
-)
 from ncpeek.utils.file_utils import (
-    read_file,
-    resolve_filter_path,
-    resolve_devices_path,
+    read_filter,
+    read_settings,
     remove_path_from_filename,
 )
-from ncpeek.args.arg_parser import create_argument_parser
+from ncpeek.utils.text_utils import (
+    is_string_valid_xml,
+    convert_json_to_dict,
+)
 from ncpeek.args.xpath_parse import extract_xpath
+from ncpeek.args.arg_parser import create_argument_parser
 
 
 @dataclass
@@ -72,8 +69,8 @@ class SettingsParser:
             return
 
         try:
-            self._filter_id = remove_path_from_filename(filename=filter_id)
-            network_filter = read_file(resolve_filter_path(filename=filter_id))
+            self._set_filter_id(filter_id=filter_id)
+            network_filter = read_filter(filename=filter_id)
         except Exception as err:
             raise ValueError(
                 f"Error opening file {err=}. Make sure a valid filename is provided for a xml filter."
@@ -85,7 +82,7 @@ class SettingsParser:
 
     def _parse_xpath_filter(self, filter_id: str) -> None:
         """Parse XPath filter from a provided string."""
-        self._filter_id = remove_path_from_filename(filename=filter_id)
+        self._set_filter_id(filter_id=filter_id)
         self._network_filter = extract_xpath(netconf_filter=filter_id)
 
     def _load_settings(self, device_settings: str) -> dict:
@@ -97,5 +94,9 @@ class SettingsParser:
                 # passing json directly
                 return convert_json_to_dict(json_string=device_settings)
             except Exception:
-                file_path = resolve_devices_path(filename=device_settings)
-                return convert_json_to_dict(read_file(filename=file_path))
+                return convert_json_to_dict(
+                    read_settings(filename=device_settings)
+                )
+
+    def _set_filter_id(self, filter_id: str) -> str:
+        self._filter_id = remove_path_from_filename(filename=filter_id)

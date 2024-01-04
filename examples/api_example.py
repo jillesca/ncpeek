@@ -1,6 +1,7 @@
 from ncpeek.client import NetconfClient
 
-xml_filter: str = """
+
+XML_FILTER: str = """
 <filter>
   <system xmlns="http://openconfig.net/yang/system">
     <state>
@@ -10,7 +11,7 @@ xml_filter: str = """
 </filter>
 """
 
-xr_device_settings: dict = [
+XR_SETTINGS: list[dict] = [
     {
         "host": "sandbox-iosxr-1.cisco.com",
         "port": 830,
@@ -28,8 +29,8 @@ xr_device_settings: dict = [
 def api_call() -> None:
     """Example NetconfClient API"""
     client = NetconfClient()
-    client.set_devices_settings(xr_device_settings)
-    client.set_xml_filter(xml_filter)
+    client.set_devices_settings(device_settings=XR_SETTINGS)
+    client.set_xml_filter(xml_filter=XML_FILTER)
     try:
         result = client.fetch()
     except Exception as err:
