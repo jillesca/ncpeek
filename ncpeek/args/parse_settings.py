@@ -63,7 +63,7 @@ class SettingsParser:
 
     def _parse_xml_filter(self, filter_id: str) -> None:
         """Parse XML filter from a provided string."""
-        if is_string_valid_xml(filter_id):
+        if is_string_valid_xml(xml_string=filter_id):
             self._filter_id = "generic"
             self._network_filter = filter_id
             return
@@ -75,7 +75,7 @@ class SettingsParser:
             raise ValueError(
                 f"Error opening file {err=}. Make sure a valid filename is provided for a xml filter."
             ) from err
-        if is_string_valid_xml(network_filter):
+        if is_string_valid_xml(xml_string=network_filter):
             self._network_filter = network_filter
         else:
             raise ValueError("No valid XML found in file/string")

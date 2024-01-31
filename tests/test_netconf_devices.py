@@ -53,3 +53,20 @@ def test_NetconfDevice_parse_boolean():
             password="pass",
             hostkey_verify="not_a_boolean",
         )
+
+
+def test_NetconfDevice_set_hostname():
+    # Test when hostname is not set
+    device = NetconfDevice(host="localhost", username="user", password="pass")
+    device._set_hostname()
+    assert device.hostname == "localhost"
+
+    # Test when hostname is already set
+    device = NetconfDevice(
+        host="localhost",
+        username="user",
+        password="pass",
+        hostname="example.com",
+    )
+    device._set_hostname()
+    assert device.hostname == "example.com"

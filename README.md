@@ -318,7 +318,7 @@ To add a custom parser follow the steps below:
 
       ```python
         "field": self.netconf_filter_id,
-        "device": self.device.host,
+        "device": self.device.hostname,
         "ip": self.device.host,
       ```
 
