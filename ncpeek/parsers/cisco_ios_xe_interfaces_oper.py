@@ -52,7 +52,7 @@ class InterfaceStatsIOSXEParser(Parser):
             else 0,
             "name": interface["name"].replace(" ", "_"),
             "field": self.netconf_filter_id,
-            "device": self.device.host,
+            "device": self.device.hostname,
             "ip": self.device.host,
         }
 

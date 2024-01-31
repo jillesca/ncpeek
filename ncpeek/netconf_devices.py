@@ -31,6 +31,14 @@ class NetconfDevice:
         self.look_for_keys = self.convert_str_to_bool(
             str_value=self.look_for_keys
         )
+        self._set_hostname()
+
+    def _set_hostname(self) -> None:
+        """
+        Sets the hostname of the device if it is not already set.
+        """
+        if not self.hostname:
+            self.hostname = self.host
 
     def _check_required_fields(self) -> None:
         """

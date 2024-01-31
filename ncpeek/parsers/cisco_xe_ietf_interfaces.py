@@ -51,6 +51,6 @@ class InterfaceStatsIETF_IOSXEParser(Parser):
             "out_errors": int(interface["statistics"]["out-errors"]),
             "name": interface["name"].replace(" ", "_"),
             "field": self.netconf_filter_id,
-            "device": self.device.host,
+            "device": self.device.hostname,
             "ip": self.device.host,
         }
