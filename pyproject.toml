@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ncpeek"
-version = "0.1.1"
+version = "0.1.2"
 description = "ncpeek (short for netconf peek) is a netconf client that retrieves data using the ncclient library."
 authors = ["Jesus Illescas <jillesca@outlook.com>"]
 readme = ["README.md"]
