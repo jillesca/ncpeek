@@ -31,7 +31,7 @@ class DefaultParser(Parser):
         return [
             {
                 "ip": device.host,
-                "device": device.host,
+                "device": device.hostname,
                 "field": netconf_filter_id,
                 "data": data,
             }
