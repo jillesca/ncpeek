@@ -9,9 +9,10 @@ device = NetconfDevice(
     username="username",
 )
 parser = ISISStatsIOSXEParser(device=device)
-filter_id = "filter1"
 
-data_to_parse = {
+FILTER_ID = "filter1"
+
+DATA_TO_PARSE = {
     "data": {
         "isis-oper-data": {
             "isis-instance": {
@@ -48,7 +49,7 @@ data_to_parse = {
 
 
 def test_parse():
-    parsed_data = parser.parse(data_to_parse, device, filter_id)
+    parsed_data = parser.parse(DATA_TO_PARSE, device, FILTER_ID)
     expected_data = [
         {
             "device": "device-1",
@@ -96,7 +97,7 @@ def test_parse():
 
 
 def test_group_data_by_system_id():
-    grouped_data = parser._group_data_by_system_id(data_to_parse)
+    grouped_data = parser._group_data_by_system_id(DATA_TO_PARSE)
     expected_data = {
         "00:00:00:00:00:0a": [
             {
@@ -123,6 +124,42 @@ def test_group_data_by_system_id():
                 "local_ipv4_address": "192.168.0.3",
             }
         ],
+    }
+
+    assert grouped_data == expected_data
+
+
+SINGLE_ISIS_NEIGHBOR = {
+    "data": {
+        "isis-oper-data": {
+            "isis-instance": {
+                "isis-neighbor": {
+                    "holdtime": "22",
+                    "if-name": "GigabitEthernet3",
+                    "ipv4-address": "10.4.4.1",
+                    "level": "isis-level-1",
+                    "state": "isis-adj-up",
+                    "system-id": "00:00:00:00:00:0b",
+                },
+            },
+        },
+    }
+}
+
+
+def test_group_data_by_system_id_single_neighbor():
+    grouped_data = parser._group_data_by_system_id(SINGLE_ISIS_NEIGHBOR)
+
+    expected_data = {
+        "00:00:00:00:00:0b": [
+            {
+                "interface_name": "GigabitEthernet3",
+                "level": "isis-level-1",
+                "local_ipv4_address": "10.4.4.1",
+                "isis_status": "isis-adj-up",
+                "holdtime": "22",
+            }
+        ]
     }
 
     assert grouped_data == expected_data
