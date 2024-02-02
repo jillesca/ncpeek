@@ -52,9 +52,13 @@ class ISISStatsIOSXEParser(Parser):
             Dict: The grouped data.
         """
         grouped_data = defaultdict(list)
-        for neighbor in data["data"]["isis-oper-data"]["isis-instance"][
+        neighbors = data["data"]["isis-oper-data"]["isis-instance"][
             "isis-neighbor"
-        ]:
+        ]
+
+        if isinstance(neighbors, dict):
+            neighbors = [neighbors]
+        for neighbor in neighbors:
             grouped_data[neighbor["system-id"]].append(
                 self._create_neighbor_dict(neighbor)
             )
@@ -114,12 +118,14 @@ class ISISStatsIOSXEParser(Parser):
             {
                 "system-id": system_id,
                 "local_interfaces_status": interfaces,
-                "neighbor_status": 1
-                if any(
-                    interface["isis_status"] == "isis-adj-up"
-                    for interface in interfaces
-                )
-                else 0,
+                "neighbor_status": (
+                    1
+                    if any(
+                        interface["isis_status"] == "isis-adj-up"
+                        for interface in interfaces
+                    )
+                    else 0
+                ),
             }
             for system_id, interfaces in grouped_data.items()
         ]

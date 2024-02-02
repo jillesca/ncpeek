@@ -1,3 +1,4 @@
+import sys
 from typing import Optional, Union
 from dataclasses import dataclass
 from ncpeek.utils.text_utils import (
@@ -73,22 +74,19 @@ class NetconfClient:
 
     def _process_device(self, device: dict) -> dict:
         """Processes a single device operation and parsing its reply."""
-        try:
-            device = NetconfDevice(**device)
-            rpc = NetconfSession(
-                device=device,
-                netconf_filter=self._netconf_filter,
-                operation=self._operation,
-            )
-            data_dict = convert_xml_to_dict(xml_string=rpc.reply())
-            parser = get_parser(netconf_filter=self._filter_id)
-            parsed_data = parser.parse(
-                data_to_parse=data_dict,
-                device=device,
-                netconf_filter_id=self._filter_id,
-            )
-        except Exception as err:
-            parsed_data = [{"error": f"{err=}"}]
+        device = NetconfDevice(**device)
+        rpc = NetconfSession(
+            device=device,
+            netconf_filter=self._netconf_filter,
+            operation=self._operation,
+        )
+        data_dict = convert_xml_to_dict(xml_string=rpc.reply())
+        parser = get_parser(netconf_filter=self._filter_id)
+        parsed_data = parser.parse(
+            data_to_parse=data_dict,
+            device=device,
+            netconf_filter_id=self._filter_id,
+        )
         return parsed_data
 
 
@@ -99,6 +97,7 @@ def cli() -> None:
         print(client.execute_cli())
     except Exception as err:
         print(f"Error found: {err=}")
+        sys.exit(2)
 
 
 if __name__ == "__main__":
